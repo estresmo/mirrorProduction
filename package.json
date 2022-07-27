@@ -19,8 +19,11 @@
     "ws": "^8.8.1"
   },
   "scripts": {
-    "mirror": "concurrently \"serve -S html\" \"wait-on http://localhost:3000 && electron .\" -k && taskkill /f /im node.exe",
-    "server": "node server/index.js 8001",
+    "mirror": "concurrently \"serve -S html\" \"wait-on tcp:3000 && electron .\" ",
+	"openserver": " wait-on tcp:8001 && explorer http://localhost:8001/",
+	"openbd": "wait-on tcp:3306 && wait-on tcp:80 && explorer http://localhost/phpmyadmin",
+    "electron": "wait-on tcp:3000 && electron .",
+	"server": "wait-on tcp:3306 && node server/index.js 8001",
     "socket": "node server/socket.js 8002",
 	"all": "concurrently \"node server/socket.js 8002\" \"node server/index.js 8001\" \"wait-on http://localhost:8001 && serve -S html\" \"wait-on http://localhost:3000 && electron .\" -k && taskkill /f /im node.exe "
   }

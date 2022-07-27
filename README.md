@@ -28,11 +28,12 @@ para abrir todos los componentes es el siguiente comando:
 
 ##### `npm run all`
 
-con este comando arranca el server, el socket y la app del espejo. Si desea abrirlo por parte
+Con este comando arranca el server, el socket y la app del espejo. Si desea abrirlo por parte
 se hace con los siguientes comandos:
 
-##### `npm run server`
+1. `npm run server`
+2. `npm run socket`
+3. `npm run mirror`
 
-##### `npm run socket`
 
-##### `npm run mirror`
+

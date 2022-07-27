@@ -23,6 +23,8 @@ exports.getsizes = getsizes;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _Product = _interopRequireDefault(require("../models/Product"));
@@ -40,6 +42,10 @@ var _promises = require("node:fs/promises");
 var _errors = require("../helpers/errors");
 
 var _connection = _interopRequireDefault(require("../db/connection"));
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 var writeXlsxFile = require('write-excel-file/node');
 
@@ -568,6 +574,8 @@ function _DeleteSize() {
 function getsizes(_x21, _x22) {
   return _getsizes.apply(this, arguments);
 }
+/* Funciones para despejar un poco el código */
+
 
 function _getsizes() {
   _getsizes = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
@@ -607,6 +615,65 @@ function _getsizes() {
     }, _callee11, null, [[0, 7]]);
   }));
   return _getsizes.apply(this, arguments);
+}
+
+function get_or_create() {
+  return _get_or_create.apply(this, arguments);
+}
+
+function _get_or_create() {
+  _get_or_create = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12() {
+    var condition_array,
+        current_object,
+        ifcreated,
+        where_array,
+        obj_elements,
+        _args12 = arguments;
+    return _regenerator["default"].wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            condition_array = _args12.length > 0 && _args12[0] !== undefined ? _args12[0] : {};
+            current_object = _args12.length > 1 ? _args12[1] : undefined;
+            ifcreated = _args12.length > 2 && _args12[2] !== undefined ? _args12[2] : {};
+
+            /*Función que devuelve un objeto, revisa si existe sino lo crea*/
+            where_array = {
+              where: condition_array
+            };
+            _context12.next = 6;
+            return current_object.count(where_array);
+
+          case 6:
+            _context12.t0 = _context12.sent;
+
+            if (!(_context12.t0 > 0)) {
+              _context12.next = 13;
+              break;
+            }
+
+            _context12.next = 10;
+            return current_object.findOne(where_array);
+
+          case 10:
+            return _context12.abrupt("return", _context12.sent);
+
+          case 13:
+            obj_elements = _objectSpread(_objectSpread({}, condition_array), ifcreated);
+            _context12.next = 16;
+            return current_object.create(obj_elements);
+
+          case 16:
+            return _context12.abrupt("return", _context12.sent);
+
+          case 17:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12);
+  }));
+  return _get_or_create.apply(this, arguments);
 }
 
 function ReadAyndExcel(_x23, _x24) {
@@ -659,362 +726,233 @@ function _ReadAyndExcel() {
                               sheet: 'Modelo Prueba'
                             }).then( /*#__PURE__*/function () {
                               var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(rows) {
-                                var errorList, i, arrayCat, whereCat, category, arrayProd, WhereProd, product, arrayProdCat, product_category_exist, colors, list_of_colors, k, color_value, whereVarColor, image_url, isWin, colorModel, list_of_sizes, stocks, list_of_stocks, codebars, list_of_codebars, _i, arrayVarSize, variant_size_exist;
+                                var errorList, condition, createdadd, i, genError, category, product, colors, list_of_colors, k, color_value, image_url, isWin, imgpath, colorModel, list_of_sizes, tmpstock, stocks, list_of_stocks, tmpcodebar, codebars, list_of_codebars, _i, arrayVarSize, variant_size_exist;
 
                                 return _regenerator["default"].wrap(function _callee13$(_context13) {
                                   while (1) {
                                     switch (_context13.prev = _context13.next) {
                                       case 0:
                                         errorList = [];
+                                        condition = {};
+                                        createdadd = {};
                                         _context13.t0 = _regenerator["default"].keys(rows);
 
-                                      case 2:
+                                      case 4:
                                         if ((_context13.t1 = _context13.t0()).done) {
-                                          _context13.next = 121;
+                                          _context13.next = 98;
                                           break;
                                         }
 
                                         i = _context13.t1.value;
 
                                         if (!(i !== "0")) {
-                                          _context13.next = 119;
+                                          _context13.next = 96;
                                           break;
                                         }
 
-                                        _context13.prev = 5;
-                                        _context13.next = 8;
-                                        return _connection["default"].transaction( /*#__PURE__*/function () {
-                                          var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(t) {
-                                            var promises;
-                                            return _regenerator["default"].wrap(function _callee12$(_context12) {
-                                              while (1) {
-                                                switch (_context12.prev = _context12.next) {
-                                                  case 0:
-                                                    promises = [];
-
-                                                  case 1:
-                                                  case "end":
-                                                    return _context12.stop();
-                                                }
-                                              }
-                                            }, _callee12);
-                                          }));
-
-                                          return function (_x36) {
-                                            return _ref3.apply(this, arguments);
-                                          };
-                                        }());
-
-                                      case 8:
-                                        arrayCat = {
+                                        _context13.prev = 7;
+                                        genError = {
+                                          'product': rows[i][1]
+                                        };
+                                        condition = {
                                           name: rows[i][0]
                                         };
-                                        whereCat = {
-                                          where: arrayCat
-                                        };
                                         _context13.next = 12;
-                                        return _Categories["default"].count(whereCat);
+                                        return get_or_create(condition, _Categories["default"]);
 
                                       case 12:
-                                        _context13.t2 = _context13.sent;
-
-                                        if (!(_context13.t2 > 0)) {
-                                          _context13.next = 19;
-                                          break;
-                                        }
-
-                                        _context13.next = 16;
-                                        return _Categories["default"].findOne(whereCat);
-
-                                      case 16:
-                                        _context13.t3 = _context13.sent;
-                                        _context13.next = 22;
-                                        break;
-
-                                      case 19:
-                                        _context13.next = 21;
-                                        return _Categories["default"].create(arrayCat, {
-                                          transaction: t
-                                        });
-
-                                      case 21:
-                                        _context13.t3 = _context13.sent;
-
-                                      case 22:
-                                        category = _context13.t3;
-                                        //Ve si hay un producto, sino lo crea
-                                        arrayProd = {
+                                        category = _context13.sent;
+                                        condition = {
                                           title: rows[i][1],
                                           description: rows[i][2],
                                           price: rows[i][3]
                                         };
-                                        WhereProd = {
-                                          where: arrayProd
-                                        };
-                                        _context13.next = 27;
-                                        return _Product["default"].count(WhereProd);
+                                        _context13.next = 16;
+                                        return get_or_create(condition, _Product["default"]);
 
-                                      case 27:
-                                        _context13.t4 = _context13.sent;
-
-                                        if (!(_context13.t4 > 0)) {
-                                          _context13.next = 34;
-                                          break;
-                                        }
-
-                                        _context13.next = 31;
-                                        return _Product["default"].findOne(WhereProd);
-
-                                      case 31:
-                                        _context13.t5 = _context13.sent;
-                                        _context13.next = 37;
-                                        break;
-
-                                      case 34:
-                                        _context13.next = 36;
-                                        return _Product["default"].create(arrayProd, {
-                                          transaction: t
-                                        });
-
-                                      case 36:
-                                        _context13.t5 = _context13.sent;
-
-                                      case 37:
-                                        product = _context13.t5;
+                                      case 16:
+                                        product = _context13.sent;
                                         //Luego de esta parte debemos asociar cada categoria con un producto
-                                        arrayProdCat = {
+                                        condition = {
                                           productId: product.dataValues.id,
                                           categoryId: category.dataValues.id
-                                        };
-                                        _context13.next = 41;
-                                        return _ProductCategories["default"].count({
-                                          where: arrayProdCat
-                                        });
+                                        }; //Si no existe alguna asociacion entonces la creamos
 
-                                      case 41:
-                                        _context13.t6 = _context13.sent;
-                                        product_category_exist = _context13.t6 > 0;
+                                        _context13.next = 20;
+                                        return get_or_create(condition, _ProductCategories["default"]);
 
-                                        if (!(product_category_exist === false)) {
-                                          _context13.next = 46;
-                                          break;
-                                        }
-
-                                        _context13.next = 46;
-                                        return _ProductCategories["default"].create(arrayProdCat, {
-                                          transaction: t
-                                        });
-
-                                      case 46:
+                                      case 20:
                                         //A partir de aqui iremos con las variantes de color
                                         colors = rows[i][4];
                                         list_of_colors = colors.split(';');
-                                        _context13.t7 = _regenerator["default"].keys(list_of_colors);
+                                        _context13.t2 = _regenerator["default"].keys(list_of_colors);
 
-                                      case 49:
-                                        if ((_context13.t8 = _context13.t7()).done) {
-                                          _context13.next = 114;
+                                      case 23:
+                                        if ((_context13.t3 = _context13.t2()).done) {
+                                          _context13.next = 91;
                                           break;
                                         }
 
-                                        k = _context13.t8.value;
+                                        k = _context13.t3.value;
                                         color_value = list_of_colors[k];
-                                        whereVarColor = {
-                                          where: {
-                                            color: color_value,
-                                            productId: product.dataValues.id
-                                          }
-                                        };
                                         image_url = rows[i][5].split(";")[k];
+                                        genError['color'] = color_value;
+                                        genError['reason'] = 'La imagen proporcionada no es valida';
+                                        genError['sizes'] = rows[i][6].split(";")[k];
 
-                                        if (!(image_url === undefined || image_url === "" || image_url === null)) {
-                                          _context13.next = 56;
+                                        if (!(image_url === "" || image_url === null)) {
+                                          _context13.next = 33;
                                           break;
                                         }
 
-                                        throw new _errors.MissingData("error", {
-                                          'product': rows[i][1],
-                                          'color': color_value,
-                                          'sizes': rows[i][6].split(";")[k],
-                                          'reason': 'La imagen proporcionada no es valida'
-                                        });
+                                        errorList.push(genError);
+                                        return _context13.abrupt("continue", 23);
 
-                                      case 56:
+                                      case 33:
                                         isWin = process.platform === "win32";
+                                        imgpath = "";
 
                                         if (isWin) {
-                                          uploadPath = __dirname.split("\controllers")[0] + "\public\\" + image_url.substring(image_url.lastIndexOf("\\"), image_url.length);
+                                          imgpath = image_url.substring(image_url.lastIndexOf("\\"), image_url.length);
+                                          uploadPath = __dirname.split("\controllers")[0] + "\public\\" + imgpath;
                                         } else {
-                                          uploadPath = __dirname.split("/controllers")[0] + "/public/" + image_url.substring(image_url.lastIndexOf("/"), image_url.length);
+                                          imgpath = image_url.substring(image_url.lastIndexOf("/"), image_url.length);
+                                          uploadPath = __dirname.split("/controllers")[0] + "/public/" + imgpath;
                                         }
 
                                         if (!fs.existsSync(image_url)) {
+                                          _context13.next = 41;
+                                          break;
+                                        }
+
+                                        _context13.next = 39;
+                                        return (0, _promises.copyFile)(image_url, uploadPath);
+
+                                      case 39:
+                                        _context13.next = 43;
+                                        break;
+
+                                      case 41:
+                                        errorList.push(genError);
+                                        return _context13.abrupt("continue", 23);
+
+                                      case 43:
+                                        condition = {
+                                          color: color_value,
+                                          productId: product.dataValues.id
+                                        };
+                                        createdadd = {
+                                          image: imgpath
+                                        };
+                                        _context13.next = 47;
+                                        return get_or_create(condition, _Variant_Color["default"], createdadd);
+
+                                      case 47:
+                                        colorModel = _context13.sent;
+                                        _context13.prev = 48;
+                                        list_of_sizes = rows[i][6].split(";")[k]; // -> Devuelve string con las tallas
+
+                                        tmpstock = rows[i][7];
+                                        stocks = tmpstock === 'string' ? tmpstock : tmpstock.toString();
+                                        list_of_stocks = stocks == 'undefined' ? '0' : stocks.split(";")[k];
+                                        tmpcodebar = rows[i][8];
+                                        codebars = typeof tmpcodebar === 'string' ? tmpcodebar : tmpcodebar.toString();
+                                        list_of_codebars = codebars.split(";")[k];
+
+                                        if (!(typeof list_of_codebars === 'undefined')) {
                                           _context13.next = 63;
                                           break;
                                         }
 
-                                        _context13.next = 61;
-                                        return (0, _promises.copyFile)(image_url, uploadPath);
-
-                                      case 61:
-                                        _context13.next = 64;
-                                        break;
+                                        genError['reason'] = 'No posee código de barras';
+                                        genError['sizes'] = list_of_sizes;
+                                        errorList.push(genError);
+                                        return _context13.abrupt("continue", 23);
 
                                       case 63:
-                                        throw new _errors.MissingData("error", {
-                                          'product': rows[i][1],
-                                          'color': color_value,
-                                          'sizes': rows[i][6].split(";")[k],
-                                          'reason': 'La imagen proporcionada no es valida'
-                                        });
-
-                                      case 64:
-                                        _context13.next = 66;
-                                        return _Variant_Color["default"].count(whereVarColor);
-
-                                      case 66:
-                                        _context13.t9 = _context13.sent;
-
-                                        if (!(_context13.t9 > 0)) {
-                                          _context13.next = 73;
-                                          break;
-                                        }
-
-                                        _context13.next = 70;
-                                        return _Variant_Color["default"].findOne(whereVarColor);
-
-                                      case 70:
-                                        _context13.t10 = _context13.sent;
-                                        _context13.next = 76;
-                                        break;
-
-                                      case 73:
-                                        _context13.next = 75;
-                                        return _Variant_Color["default"].create({
-                                          color: color_value,
-                                          productId: product.dataValues.id,
-                                          image: rows[i][5].split(";")[k]
-                                        }, {
-                                          transaction: t
-                                        });
-
-                                      case 75:
-                                        _context13.t10 = _context13.sent;
-
-                                      case 76:
-                                        colorModel = _context13.t10;
-                                        _context13.prev = 77;
-                                        list_of_sizes = rows[i][6].split(";")[k]; // -> Esto devuelve un string de los elementos que nos interesan
-
-                                        stocks = typeof rows[i][7] === 'string' ? rows[i][7] : rows[i][7].toString();
-                                        list_of_stocks = stocks == 'undefined' ? '0' : stocks.split(";")[k];
-                                        codebars = rows[i][8];
-                                        codebars = typeof codebars === 'string' ? codebars : codebars.toString();
-                                        list_of_codebars = codebars.split(";")[k];
-
-                                        if (!(typeof list_of_codebars === 'undefined')) {
-                                          _context13.next = 88;
-                                          break;
-                                        }
-
-                                        throw new _errors.MissingData("error", {
-                                          'product': rows[i][1],
-                                          'color': color_value,
-                                          'sizes': list_of_sizes,
-                                          'reason': 'No posee código de barras'
-                                        });
-
-                                      case 88:
                                         list_of_stocks = typeof list_of_stocks === 'string' ? list_of_stocks : list_of_stocks.toString();
                                         list_of_codebars = typeof list_of_codebars === 'string' ? list_of_codebars : list_of_codebars.toString();
                                         list_of_sizes = list_of_sizes.split(",");
                                         list_of_stocks = list_of_stocks.split(",");
                                         list_of_codebars = list_of_codebars.split(",");
-                                        _context13.t11 = _regenerator["default"].keys(list_of_sizes);
+                                        _context13.t4 = _regenerator["default"].keys(list_of_sizes);
 
-                                      case 94:
-                                        if ((_context13.t12 = _context13.t11()).done) {
-                                          _context13.next = 106;
+                                      case 69:
+                                        if ((_context13.t5 = _context13.t4()).done) {
+                                          _context13.next = 81;
                                           break;
                                         }
 
-                                        _i = _context13.t12.value;
+                                        _i = _context13.t5.value;
                                         arrayVarSize = {
                                           size: list_of_sizes[_i],
                                           stock: list_of_stocks[_i],
                                           codebar: list_of_codebars[_i],
                                           variant_color_id: colorModel.dataValues.id
                                         };
-                                        _context13.next = 99;
+                                        _context13.next = 74;
                                         return _Variant_Size["default"].count({
                                           where: arrayVarSize
                                         });
 
-                                      case 99:
-                                        _context13.t13 = _context13.sent;
-                                        variant_size_exist = _context13.t13 > 0;
+                                      case 74:
+                                        _context13.t6 = _context13.sent;
+                                        variant_size_exist = _context13.t6 > 0;
 
                                         if (!(variant_size_exist === false)) {
-                                          _context13.next = 104;
+                                          _context13.next = 79;
                                           break;
                                         }
 
-                                        _context13.next = 104;
+                                        _context13.next = 79;
                                         return _Variant_Size["default"].create(arrayVarSize);
 
-                                      case 104:
-                                        _context13.next = 94;
+                                      case 79:
+                                        _context13.next = 69;
                                         break;
 
-                                      case 106:
+                                      case 81:
                                         console.log("1 product Created");
 
-                                      case 107:
-                                        _context13.next = 112;
+                                      case 82:
+                                        _context13.next = 89;
                                         break;
 
-                                      case 109:
-                                        _context13.prev = 109;
-                                        _context13.t14 = _context13["catch"](77);
-                                        throw new _errors.MissingData("error", {
-                                          'product': rows[i][1],
-                                          'color': color_value,
-                                          'sizes': rows[i][6].split(";")[k],
-                                          'reason': 'La cantidad de tallas ,stocks, codigo de barras, colores NO es la misma '
-                                        });
+                                      case 84:
+                                        _context13.prev = 84;
+                                        _context13.t7 = _context13["catch"](48);
+                                        genError['reason'] = 'La cantidad de tallas ,stocks, codigo de barras, colores NO es la misma ';
+                                        errorList.push(genError);
+                                        return _context13.abrupt("continue", 23);
 
-                                      case 112:
-                                        _context13.next = 49;
+                                      case 89:
+                                        _context13.next = 23;
                                         break;
 
-                                      case 114:
-                                        _context13.next = 119;
+                                      case 91:
+                                        _context13.next = 96;
                                         break;
 
-                                      case 116:
-                                        _context13.prev = 116;
-                                        _context13.t15 = _context13["catch"](5);
+                                      case 93:
+                                        _context13.prev = 93;
+                                        _context13.t8 = _context13["catch"](7);
+                                        console.log(_context13.t8);
 
-                                        if (_context13.t15 instanceof _errors.MissingData) {
-                                          console.log(_context13.t15.object);
-                                          errorList.push(_context13.t15.object);
-                                        }
-
-                                      case 119:
-                                        _context13.next = 2;
+                                      case 96:
+                                        _context13.next = 4;
                                         break;
 
-                                      case 121:
+                                      case 98:
                                         res.render('uploadedexcel', {
                                           "query": errorList
                                         });
 
-                                      case 122:
+                                      case 99:
                                       case "end":
                                         return _context13.stop();
                                     }
                                   }
-                                }, _callee13, null, [[5, 116], [77, 109]]);
+                                }, _callee13, null, [[7, 93], [48, 84]]);
                               }));
 
                               return function (_x35) {
@@ -1253,7 +1191,7 @@ function _DeleteExcelProducts() {
             }
 
             sampleFile.mv(uploadPath, /*#__PURE__*/function () {
-              var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee20(err) {
+              var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee20(err) {
                 return _regenerator["default"].wrap(function _callee20$(_context20) {
                   while (1) {
                     switch (_context20.prev = _context20.next) {
@@ -1270,7 +1208,7 @@ function _DeleteExcelProducts() {
                           readXlsxFile(uploadPath, {
                             sheet: 'Sheet1'
                           }).then( /*#__PURE__*/function () {
-                            var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee19(rows) {
+                            var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee19(rows) {
                               var i, product, colors, list_of_color_id, sizes;
                               return _regenerator["default"].wrap(function _callee19$(_context19) {
                                 while (1) {
@@ -1350,8 +1288,8 @@ function _DeleteExcelProducts() {
                               }, _callee19);
                             }));
 
-                            return function (_x38) {
-                              return _ref5.apply(this, arguments);
+                            return function (_x37) {
+                              return _ref4.apply(this, arguments);
                             };
                           }());
                         }
@@ -1364,8 +1302,8 @@ function _DeleteExcelProducts() {
                 }, _callee20);
               }));
 
-              return function (_x37) {
-                return _ref4.apply(this, arguments);
+              return function (_x36) {
+                return _ref3.apply(this, arguments);
               };
             }());
             deleteFile(uploadPath);
