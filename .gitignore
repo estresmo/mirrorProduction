@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+
+env
+/server/public/*.jpg
+/server/public/*.png
+/server/public/*.jpeg
+lib
+yarn.lock

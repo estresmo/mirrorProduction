@@ -1,0 +1,27 @@
+{
+  "main": "main.js",
+  "dependencies": {
+    "@babel/runtime": "^7.18.9",
+    "concurrently": "^7.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "electron": "^19.0.9",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "express-handlebars": "^6.0.6",
+    "helmet": "^5.1.1",
+    "mariadb": "^3.0.1",
+    "read-excel-file": "^5.4.4",
+    "sequelize": "^6.21.3",
+    "serve": "^14.0.1",
+    "wait-on": "^6.0.1",
+    "write-excel-file": "^1.4.8",
+    "ws": "^8.8.1"
+  },
+  "scripts": {
+    "mirror": "concurrently \"serve -S html\" \"wait-on http://localhost:3000 && electron .\" -k && taskkill /f /im node.exe",
+    "server": "node server/index.js 8001",
+    "socket": "node server/socket.js 8002",
+	"all": "concurrently \"node server/socket.js 8002\" \"node server/index.js 8001\" \"wait-on http://localhost:8001 && serve -S html\" \"wait-on http://localhost:3000 && electron .\" -k && taskkill /f /im node.exe "
+  }
+}

@@ -1,0 +1,444 @@
+<body class="hold-transition sidebar-mini">
+  <!-- Site wrapper -->
+  <div class="wrapper">
+    <!-- Navbar -->
+
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Agregar Producto</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active">Añadir producto</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- MAIN -->
+      <!--Agregar Variantes de productos -->
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Agregar</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <form id="formadd" action="/" method="POST" encType="multipart/form-data">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="inputName">Nombre del producto</label>
+                    <input type="text" id="nameproduct" name="nameproduct" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDescription">Descripcion del producto</label>
+                    <textarea id="description" name="description" class="form-control" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputClientCompany">Precio</label>
+                    <input type="text" id="price" name="price" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputCategory">Categoria</label>
+                    <input type="text" id="category" name="category" class="form-control">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <button type="button" onclick="checkproduct()" class="btn btn-success float-right" value="Save"> Agregar Producto</button>
+            </form>
+            <!-- /.card -->
+          </div>
+          <div class="col-md-6">
+            <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Borrar</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <form method="POST" action="/delete-product/" encType="multipart/form-data">
+                  <div class="form-group">
+                    <label for="inputStatus">Producto</label>
+                    <select id="inputStatus2" class="form-control custom-select" name="product_Id_delete">
+                      <option selected disabled>Seleccionar producto</option>
+                      {{#each query}}
+                      {{#dataValues}}
+                      <option value="{{ id }}">{{title}}</option>
+                      {{/dataValues}}
+                      {{/each }}
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-danger float-right" value="Save"> Borrar Producto</button>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Colores disponibles del Producto</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <!--  Este card es para agregar la variante de color-->
+              <form  id="color_form" action="/add-variant/color/" method="POST" encType="multipart/form-data">
+                <div class="card-body">
+                  <div class="form-group">
+
+                    <div class="form-group">
+                      <label for="inputStatus">Producto</label>
+                      <select id="inputStatusColor" required class="form-control custom-select productid1" name="product_id">
+                        <option selected value="null">Seleccionar Uno</option>
+                        {{#each query}}
+                          {{#dataValues}}
+                        <option value="{{ id }}">{{title}}</option>
+                          {{/dataValues}}
+                        {{/each }}
+                      </select>
+                    </div>
+                    <!-- Esta es el input de color -->
+                    <div class="form-group" id="color">
+                      <label for="inputClientCompany">Color</label>
+                      <input type="color" name="variant_color" id="variant_color" class="form-control">
+                    </div>
+                    <!-- Este va a ser el input de la imagen -->
+                    <h3>Subir foto del producto</h3>
+                    <input type="file" required name="sampleFile" accept="image/*" />
+                   
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                
+  
+              <!-- /.card -->
+            </div>
+            <button type="button" onclick="checkcolor()" class="btn btn-success float-right" value="Save"> Agregar Color</button>
+            </form>
+
+          </div>
+          <div class="col-md-6">
+            <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Borrar color</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <form method="POST" action="/delete-color/" encType="multipart/form-data">
+                  <div class="form-group">
+                    <label for="inputStatus">Producto</label>
+                    <select id="inputStatus2" class="form-control custom-select" name="product_Id_delete" onchange="getColor(this,'#del_variant_color_id');">
+                      <option selected disabled>Seleccionar producto</option>
+                      {{#each query}}
+                      {{#dataValues}}
+                      <option value="{{ id }}">{{title}}</option>
+                      {{/dataValues}}
+                      {{/each }}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="inputStatus">Color</label>
+                      <select class="form-control custom-select" id="del_variant_color_id" name="variant_color_id" >
+                        <option selected disabled id="option-disabled">Seleccionar Uno</option>
+                                          
+                    
+                      </select>
+                  </div>
+                  <button type="submit" class="btn btn-danger float-right" value="Save"> Borrar Color</button>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+          <!-- Este es el tercer modal para poder crear variantes de talla -->
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Tallas disponibles del Producto</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <form id="size_form" action="/add-variant/size/" method="POST" encType="multipart/form-data">
+                <div class="card-body">
+                  <div class="form-group">
+
+                     <div class="form-group">
+                      <label for="inputStatus">Producto</label>
+                      <select id="inputStatusColor" required class="form-control custom-select" onchange="getColor(this);"name="product_id">
+                        <option selected value="null">Seleccionar Uno</option>
+                        {{#each query}}
+                          {{#dataValues}}
+                        <option value="{{ id }}">{{title}}</option>
+                          {{/dataValues}}
+                        {{/each }}
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputStatus">Color</label>
+                      <select class="form-control custom-select" id="variant_color_id" name="variant_color_id">
+                        <option selected disabled id="option-disabled">Seleccionar Uno</option>
+                                          
+                    
+                      </select>
+                    </div>
+                    <!-- Esta es el input de talla -->
+                    <div class="form-group" id="size">
+                      <label for="inputClientCompany">Talla</label>
+                      <input type="text" name="variant_size" id="variant_size" class="form-control">
+                    </div>
+                    <!-- Este va a ser el input del stock -->
+                <div class="form-group" id="stock">
+                      <label for="inputClientCompany">Stock</label>
+                      <input type="number" name="stock" class="form-control">
+                    </div>
+                  </div>
+                  <!-- Este va a ser para el codebar -->
+                   <div class="form-group" id="codebar">
+                      <label for="inputClientCompany">Codigo de Barras</label>
+                      <input type="text" name="codebar" class="form-control">
+                    </div>
+                </div>
+                  <!-- /.card-body -->
+              </form>
+            </div>
+              
+              <!-- /.card -->
+              <button type="button" onclick="checksize()" class="btn btn-success float-right" value="Save"> Agregar Talla</button>
+              
+              <script>
+                function checkproduct(){
+                  producttitle=document.getElementById("nameproduct").value
+                  link='/api/checkprod/?title='+producttitle
+                  msg="Ya existe un producto con este nombre"
+                  formid='formadd'
+                  do_checkfetch(link,msg,formid)
+                }
+                function checkcolor(){
+                  color=document.getElementById("variant_color").value
+                  color=color.replace('#','')
+                  product_id=document.getElementsByClassName("productid1")[0].value
+                  link='/api/checkcolor/?color='+color + '&product_id='+product_id
+                  msg="Ya existe este color para el producto seleccionado"
+                  formid='color_form'
+                  do_checkfetch(link,msg,formid)
+                }
+                function checksize(){
+                  size=document.getElementById('variant_size').value
+                  color_id=document.getElementById("variant_color_id").value
+                  link='/api/checksize/?color_id='+color_id + "&size="+size
+                  msg="Ya existe esta talla para este color de producto"
+                  formid='size_form'
+                  do_checkfetch(link,msg,formid)
+                }
+                function do_checkfetch(link,msg,formid){
+                fetch(link)
+                  .then(res=>res.json())
+                  .then(res=>{
+                    console.log(link)
+                    console.log(res)
+                    results=res.result.length
+                    if(results>0){
+                      window.alert(msg)
+                    }else{
+                      document.getElementById(formid).submit()
+                    }
+                  })
+                }
+              </script>
+          </div>
+          <div class="col-md-6">
+            <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Borrar Talla</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <form method="POST" action="/delete-size/" encType="multipart/form-data">
+                  <div class="form-group">
+                    <label for="inputStatus">Producto</label>
+                    <select id="inputStatus2" class="form-control custom-select" name="product_Id_delete" onchange="getColor(this,'#del_variant_color_id2',true)">
+                      <option selected disabled>Seleccionar producto</option>
+                      {{#each query}}
+                      {{#dataValues}}
+                      <option value="{{ id }}">{{title}}</option>
+                      {{/dataValues}}
+                      {{/each }}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="inputStatus">Color</label>
+                      <select class="form-control custom-select" id="del_variant_color_id2" name="color_id"  onchange="getSizes(this);">
+                        <option selected disabled id="option-disabled">Seleccionar Uno</option>
+                                          
+                    
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="inputStatus">Talla</label>
+                      <select class="form-control custom-select" id="del_variant_size_id" name="size_id" >
+                        <option selected disabled id="option-disabled">Seleccionar Uno</option>
+                                          
+                    
+                      </select>
+                  </div>
+                  <button type="submit" class="btn btn-danger float-right" value="Save"> Borrar Talla</button>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          </div>
+        
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.2.0-rc
+      </div>
+      <strong>Copyright &copy; All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+
+  <script>
+    var form= document.querySelector("#color_form")
+    form.addEventListener("submit", function(e){
+      var color= document.querySelector("#inputStatusColor")
+      if (color.value === "null"){
+        e.preventDefault()
+        alert("Lo siento debe seleccionar el producto")
+
+      }
+      
+    })
+
+ 
+    </script>
+
+ <script>
+  /* 
+   window.onload= function(){
+     fetch("api/variant/")
+     .then(res => res.json())
+     .then(data => {
+
+       var products= data.products;
+       var colors= data.colors;
+       colors.map(function(obj) {
+         //Luego debemos conseguir el index 
+         let index;
+         for(let i=0; i<products.length; i++){
+            if(products[i].id == obj.productId){
+              index= i;
+              break
+            }
+         }
+         var text= products[index].title + " " + obj.color;
+         var option= document.createElement("option");
+         option.innerText= text;
+         option.value= obj.id;
+         option.style.color= obj.color;
+         document.querySelector("#variant_color_id").appendChild(option);
+
+
+       })
+     })
+
+
+   }
+   */
+   function getColor(obj,selectid="#variant_color_id",hassize=false){
+     console.log(obj)
+     fetch("/api/variant/" + obj.value)
+     .then(res => res.json())
+     .then(data => {
+       document.querySelector(selectid).innerHTML= ""
+       for(const i in data.colors){
+         var option= document.createElement("option");
+         option.innerText= "Color: " + data.colors[i].color;
+         option.value= data.colors[i].id;
+         option.style.color= data.colors[i].color;
+         document.querySelector(selectid).appendChild(option);
+       }
+      if (hassize==true){
+        getSizes(document.getElementById('del_variant_color_id2'))
+      }
+     })
+   }
+   function getSizes(obj){
+     fetch("/api/getsizes/?color_id=" + obj.value)
+     .then(res => res.json())
+     .then(data => {
+       console.log(data)
+       document.querySelector('#del_variant_size_id').innerHTML= ""
+       for(const i in data.size){
+         var option= document.createElement("option");
+         option.innerText= "Talla: " + data.size[i].size;
+         option.value= data.size[i].id;
+         document.querySelector('#del_variant_size_id').appendChild(option);
+       }
+
+     })
+   }
+
+ </script> 
+
+</body>
+
+</html>
