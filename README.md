@@ -1,7 +1,7 @@
-### Descripción
+# Descripción
 Este es un repositorio autogenerado por react-mirror y mirror-server, el bashscript para generarlo es este:
 
-# `cd react-mirror`
+#### `cd react-mirror`
 
 `copy /Y main.js ..\MirrorProduction\`
 
@@ -15,4 +15,4 @@ Este es un repositorio autogenerado por react-mirror y mirror-server, el bashscr
 
 `start cmd.exe @cmd /k "npm run build & xcopy /E /Y lib\*.* ..\MirrorProduction\server\ & exit"`
 
-### Instalación
+# Instalación
