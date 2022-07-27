@@ -1,7 +1,7 @@
 ### Descripción
 Este es un repositorio autogenerado por react-mirror y mirror-server, el bashscript para generarlo es este:
 
-`cd react-mirror`
+# `cd react-mirror`
 
 `copy /Y main.js ..\MirrorProduction\`
 
